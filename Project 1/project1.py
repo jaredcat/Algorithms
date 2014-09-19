@@ -3,44 +3,47 @@ import time
 
 
 def largest_digit(input_string):
+    #empty set
     largest = ""
     for s in input_string:
         if s.isdigit():
+            #if new number is larger than current number
             if s > largest:
                 largest = s
+    #if empty set and is not a 0
     if not largest and largest != 0:
+        #there was no numbers found
         return "None"
     else:
         return largest
 
 
 def longest_string(s):
-    longest = "The"
+    longest = ""
+    #starts after file header junk and ends if its impossible for a longer string to be found
     for i in range(3, len(s)-4*len(longest)):
-        ok=0
+        #starts after longest current found string and goes till it would be impossible to find another string
         for j in range(len(longest)+1, len(s)-i-(len(longest)+1)*2):
             find = s[i:i+j]
+            #starts after the 'find' and goes till the there's not enough room to fit its equivalent
             for k in range(i+j, len(s)-len(find)-j):
                 check = s[k:k+len(find)]
                 if check == find:
                     longest = find
-                    ok=1
                     break
-            if ok:
-                break
     if longest != "":
         return longest
     return "None"
 
 
 def main():
-#    if len(sys.argv) != 3:
-#       print('error: you must supply exactly two arguments\n\n' +
- #             'usage: python3 <Python source code file> <text file> <n>')
-  #      sys.exit(1)
+    if len(sys.argv) != 3:
+        print('error: you must supply exactly two arguments\n\n' +
+              'usage: python3 <Python source code file> <text file> <n>')
+        sys.exit(1)
 
-    filename = "pg76.txt"
-    n = 2000
+    filename = sys.argv[1]
+    n = int(sys.argv[2])
 
     entire_file = open(filename).read()
     print('Loaded "' + filename + '" of length ' + str(len(entire_file)))
