@@ -1,5 +1,5 @@
-import project1
+import os
 
 
-for i in range(200, 2000, 450):
-    project1("pg76.txt", i)
+for i in range(200, 2450, 450):
+    os.system("python project1.py pg76.txt " + str(i))
