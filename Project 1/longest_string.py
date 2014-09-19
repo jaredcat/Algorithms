@@ -15,14 +15,19 @@ def largest_digit(input_string):
 
 
 def longest_string(s):
-    longest = ""
-    for i in range(3, len(s)-2*len(longest)*2):
+    longest = "The"
+    for i in range(3, len(s)-4*len(longest)):
+        ok=0
         for j in range(len(longest)+1, len(s)-i-(len(longest)+1)*2):
             find = s[i:i+j]
-            for k in range(i+j, len(s)-j):
-                if s[k:k+j] == find:
+            for k in range(i+j, len(s)-len(find)-j):
+                check = s[k:k+len(find)]
+                if check == find:
                     longest = find
+                    ok=1
                     break
+            if ok:
+                break
     if longest != "":
         return longest
     return "None"
@@ -35,7 +40,7 @@ def main():
   #      sys.exit(1)
 
     filename = "pg76.txt"
-    n = 3000
+    n = 2000
 
     entire_file = open(filename).read()
     print('Loaded "' + filename + '" of length ' + str(len(entire_file)))
