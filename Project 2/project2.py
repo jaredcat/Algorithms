@@ -1,38 +1,45 @@
 import sys
+import copy
 import time
 
 
 class DebianPackage(object):
-    def __init__ (self, name, votes, size):
+    def __init__(self, name, votes, size):
         self.name = name
         self.votes = votes
         self.size = size
 
-    def return_values(self):
-        return self.name, self.votes, self.size
+    def name(self):
+        return self.name
+
+    def votes(self):
+        return self.votes
+
+    def size(self):
+        return self.size
+
+    def __str__(self):
+        return self.name + " " + self.votes + " " + self.size
 
 
 def read_packages(file, n):
-    f = open(file, "r")
-    pkg = DebianPackage()
-    pkg_list = []
-    first = 1
-    for line in f:
-        if not first:
+    with open(file, "r") as f:
+        pkg_list = []
+        for line in f[1:n]:
             line = line.split(" ")
-            pkg.initialize(line[0], int(line[1]), int(line[2]))
-            pkg_list.append(pkg)
-        else:
-            first = 0
-    f.close()
+            new_pkg = DebianPackage(line[0], int(line[1]), int(line[2]))
+            pkg_list.append(copy.deepcopy(new_pkg))
     return pkg_list
 
 
 def subsets(package_list):
-    return 0
+    result = [[]]
+
+    return result
 
 
 def verify_knapsack(candiate, W):
+
     return 0
 
 
@@ -64,13 +71,15 @@ def main():
 
     pkg_list = read_packages(filename, n)
 
-    start = time.perf_counter()
+    print(pkg_list)
+
+    '''start = time.perf_counter()
     f = exhaustive_knapsack(pkg_list, W)
     end = time.perf_counter()
     print('------ n=' + n + ' W=' + W)
     print('    ---Exhaustive search solution ---')
     print(f)
-    print('       Elapsed time = ' + str(end - start) + "seconds")
+    print('       Elapsed time = ' + str(end - start) + "seconds")'''
 
 if __name__ == '__main__':
     main()
