@@ -23,20 +23,16 @@ class DebianPackage(object):
 
 
 def read_packages(file, n):
-    first = 1
     i = 0
     with open(file, "r") as f:
             pkg_list = []
+            next(f)
             for line in f:
-                if not first:
                     if i == n:
                         break
                     line = line.split(" ")
                     new_pkg = DebianPackage(line[0], int(line[1]), int(line[2]))
                     pkg_list.append(copy.deepcopy(new_pkg))
-                    i += 1
-                else:
-                    first = 0
                     i += 1
     return pkg_list
 
@@ -51,62 +47,62 @@ def subsets(package_list):
     return result
 
 
-def verify_knapsack(candiate, W):
-    sum = 0
-    for x in candiate:
-        sum += x.size
-    if sum > W:
+def verify_knapsack(candidate, W):
+    weight_sum = 0
+    for x in candidate:
+        weight_sum += x.size
+    if weight_sum > W:
         return 0
     else:
-        return 1
+        return weight_sum
 
 
-def compare_knapsack(candidate, best):
+def compare_knapsack(candidate, best_votes):
     candidate_votes = 0
-    best_votes = 0
     for x in candidate:
         candidate_votes += x.votes
-    for x in best:
-        best_votes += x.votes
     if candidate_votes <= best_votes:
         return 0
     else:
-        return 1
+        return candidate_votes
 
 
 def exhaustive_knapsack(package_list, W):
     best = []
+    best_votes = 0
+    best_size = 0
     for candidate in subsets(package_list):
-        if verify_knapsack(candidate, W):
-            if compare_knapsack(candidate, best):
+        candidate_size = verify_knapsack(candidate, W)
+        if candidate_size:
+            candidate_votes = compare_knapsack(candidate, best_votes)
+            if candidate_votes:
                 best = candidate
-    return best
+                best_size = candidate_size
+                best_votes = candidate_votes
+    return best, best_size, best_votes
 
 
 def main():
-    '''if len(sys.argv) != 4:
+    if len(sys.argv) != 4:
         print('error: you must supply exactly two arguments\n\n' +
               'usage: python3 <Python source code file> <text file> <n> <W>')
         sys.exit(1)
 
     filename = sys.argv[1]
-    n = int(sys.argv[2])+1
-    W = int(sys.argv[3])'''
-    filename = "packages.txt"
-    n = 20+1
-    W = 1000
+    n = int(sys.argv[2])
+    W = int(sys.argv[3])
 
     pkg_list = read_packages(filename, n)
 
     start = time.perf_counter()
     f = exhaustive_knapsack(pkg_list, W)
     end = time.perf_counter()
-    print('------ n=' + str(n-1) + ' W=' + str(W))
-    print('    ---Exhaustive search solution ---')
-    test = ""
-    for i in f:
-        print('       ' + str(i))
-    print('       Elapsed time = ' + str(end - start) + " seconds")
+    print('------ n=' + str(n) + ' W=' + str(W))
+    print('    --- Exhaustive search solution ---')
+    for i in f[0]:
+        print('        ' + str(i))
+    print('        Total size=' + str(f[1]) + "  Total votes=" + str(f[2]))
+    print('        Elapsed time = ' + "{0:.2f}".format(round(end - start, 2)) + " seconds")
 
 if __name__ == '__main__':
     main()
