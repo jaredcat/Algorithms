@@ -6,8 +6,8 @@ def run_file(n, W):
 
 
 def main():
-    for i in range(1, 27, 5):
-        run_file(i, 2000)
+    for i in range(0, 25, 4):
+        run_file(i, 100)
 
 if __name__ == '__main__':
     main()

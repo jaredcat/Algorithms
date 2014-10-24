@@ -99,10 +99,11 @@ def main():
     end = time.perf_counter()
     print('------ n=' + str(n) + ' W=' + str(W))
     print('    --- Exhaustive search solution ---')
-    for i in f[0]:
-        print('        ' + str(i))
+    #for i in f[0]:
+        #print('        ' + str(i))
     print('        Total size=' + str(f[1]) + "  Total votes=" + str(f[2]))
-    print('        Elapsed time = ' + "{0:.2f}".format(round(end - start, 2)) + " seconds")
+    #print('        Elapsed time = ' + "{0:.2f}".format(round(end - start, 2)) + " seconds")
+    print('        Elapsed time = ' + str(end - start) + " seconds")
 
 if __name__ == '__main__':
     main()
