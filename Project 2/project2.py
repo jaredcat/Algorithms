@@ -26,10 +26,12 @@ def read_packages(file, n):
     i = 0
     with open(file, "r") as f:
             pkg_list = []
+            #skips the first line
             next(f)
             for line in f:
                     if i == n:
                         break
+                    #breaks the line up by spaces
                     line = line.split(" ")
                     new_pkg = DebianPackage(line[0], int(line[1]), int(line[2]))
                     pkg_list.append(copy.deepcopy(new_pkg))
@@ -38,19 +40,27 @@ def read_packages(file, n):
 
 
 def subsets(package_list):
+    #creates a list with an empty set
     result = [[]]
+    #for every package in the package list
     for x in package_list:
         with_x = []
+        #for every subset that has already been created
         for subset in result:
+            #add the package to every previous subset
             with_x.append(subset + [x])
+        #update result
         result = result + with_x
     return result
 
 
 def verify_knapsack(candidate, W):
     weight_sum = 0
+    #for every package in the candidate set
     for x in candidate:
+        #add up the sum of all weights
         weight_sum += x.size
+    #if the new weight/size is larger then the the maximum allowed
     if weight_sum > W:
         return 0
     else:
@@ -59,8 +69,10 @@ def verify_knapsack(candidate, W):
 
 def compare_knapsack(candidate, best_votes):
     candidate_votes = 0
+    #for every package in the candidate set
     for x in candidate:
         candidate_votes += x.votes
+    #if the candidate set's votes are less than the current best
     if candidate_votes <= best_votes:
         return 0
     else:
@@ -71,6 +83,7 @@ def exhaustive_knapsack(package_list, W):
     best = []
     best_votes = 0
     best_size = 0
+    #creates powerset of all packages
     for candidate in subsets(package_list):
         candidate_size = verify_knapsack(candidate, W)
         if candidate_size:
