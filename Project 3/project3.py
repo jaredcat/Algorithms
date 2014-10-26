@@ -1,7 +1,8 @@
 import time
 import sys
 
-def read_file(filename,n):
+
+def read_file(filename, n):
     i = 0
     word_list = []
     with open(filename, "r") as f:
@@ -15,10 +16,10 @@ def read_file(filename,n):
 
 
 def first_ten(input_list):
-    ten = []
+    print('First 10 words: ', end="")
     for i in input_list[0:10]:
-        ten.append(i)
-    return ten
+        print('[' + i + '] ', end="")
+    print()
 
 
 def selection_sort(l):
@@ -66,31 +67,31 @@ def merge(left, right):
 def main():
     if len(sys.argv) != 4:
         print('error: you must supply exactly four arguments\n\n' +
-              'usage: python3 <Python source code file> <text file> <n> <selection||merge>')
+              'usage: python3 <Python source code file> <text file> <selection||merge> <n>')
         sys.exit(1)
 
     filename = sys.argv[1]
-    n = int(sys.argv[2])
-    sort_type = sys.argv[3]
+    sort_type = sys.argv[2]
+    n = int(sys.argv[3])
 
     input_list = read_file(filename, n)
 
     print('Requested n = ' + str(n))
     print('Loaded ' + str(n) + ' lines from "' + filename + '"')
-    print('First 10 words: ' + str(first_ten(input_list)))
+    first_ten(input_list)
 
     if sort_type == "selection":
-        print('Selection Sort [O(n^2)]...')
+        print('Selection Sort [O(n2)]...')
         start = time.perf_counter()
         sorted_list = selection_sort(input_list)
         end = time.perf_counter()
     elif sort_type == "merge":
-        print('Merge Sort [O(nlogn)]...')
+        print('Merge Sort [O(n log n)]...')
         start = time.perf_counter()
         sorted_list = merge_sort(input_list)
         end = time.perf_counter()
 
-    print('First 10 words: ' + str(first_ten(sorted_list)))
+    first_ten(sorted_list)
     print('Elapsed time: ' + str(end-start) + " seconds")
 
 if __name__ == '__main__':

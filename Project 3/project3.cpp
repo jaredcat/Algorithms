@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 	cout << "Loaded " << n << " line from '" << filename << "'" << endl;
 	first_ten(input_list, n);
 
-    cout << "Selection Sort..." << endl;
+    cout << "Selection Sort [O(n2)]..." << endl;
     auto start = chrono::high_resolution_clock::now();
     selection_sort(input_list, n);
     auto end = chrono::high_resolution_clock::now();
