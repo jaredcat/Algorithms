@@ -65,7 +65,7 @@ def merge(left, right):
 
 def main():
     if len(sys.argv) != 4:
-        print('error: you must supply exactly two arguments\n\n' +
+        print('error: you must supply exactly four arguments\n\n' +
               'usage: python3 <Python source code file> <text file> <n> <selection||merge>')
         sys.exit(1)
 
